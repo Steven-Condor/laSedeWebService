@@ -9,7 +9,7 @@
     {
         if (isset($_GET['id_cancha'])) {
             //Mostrar post
-            $sql = $dbConn->prepare("SELECT * FROM cancha WHERE id_cancha =: id_cancha");
+            $sql = $dbConn->prepare("SELECT * FROM cancha WHERE id_cancha=:id_cancha");
             $sql->bindValue(':id_cancha',$_GET['id_cancha']);
             $sql->execute();
             header("HTTP/1.1 200 OK");
@@ -34,7 +34,7 @@
         $sql = "INSERT INTO cancha
             (nombre, valor, estado, id_tipo_cancha)
             VALUES
-            (:nombre, :valor, :estado, :id_tipo_cancha)";
+            (:nombre, :valor,:estado,:id_tipo_cancha)";
         $statement = $dbConn->prepare($sql);
         bindAllValues($statement, $input);
         $statement->execute();

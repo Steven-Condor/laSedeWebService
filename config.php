@@ -1,8 +1,8 @@
 <?php
     $db = [
         'host' => 'localhost',
-        'username' => 'rootsteven',
-        'password' => 'root123', 
+        'username' => 'root',
+        'password' => '', 
         'db' => 'lasede'
     ];
 ?>

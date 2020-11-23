@@ -17,6 +17,26 @@
             echo json_encode($sql->fetch(PDO::FETCH_ASSOC));
 
             exit();
+        } else if (isset($_GET['id_usuario'])) {
+            $sql = $dbConn->prepare("SELECT * FROM reserva WHERE id_usuario=:id_usuario");
+            $sql->bindValue(':id_usuario',$_GET['id_usuario']);
+            $sql->execute();
+            $sql->setFetchMode(PDO::FETCH_ASSOC);
+            header("HTTP/1.1 200 OK");
+            echo json_encode($sql->fetchAll());
+            exit();
+        }else if (isset($_GET['id_especial'])) {
+            $sql = $dbConn->prepare("SELECT c.nombre,h.hora_inicio,r.id_reserva,h.hora_fin,r.fecha FROM  reserva r
+            join cancha_hora ch ON r.id_cancha_hora = ch.id_cancha_hora
+            join cancha c on ch.id_cancha = c.id_cancha
+            join horario h on ch.id_horario = h.id_horario
+            WHERE id_usuario=:id_especial ");
+            $sql->bindValue(':id_especial',$_GET['id_especial']);
+            $sql->execute();
+            $sql->setFetchMode(PDO::FETCH_ASSOC);
+            header("HTTP/1.1 200 OK");
+            echo json_encode($sql->fetchAll());
+            exit();
         }else{
             //Mostar lista de post
             $sql = $dbConn->prepare("SELECT * FROM reserva");

@@ -9,8 +9,19 @@
     {
         if (isset($_GET['id_usuario'])) {
             //Mostrar post
-            $sql = $dbConn->prepare("SELECT * FROM usuario WHERE id_usuario =: id_usuario");
+            $sql = $dbConn->prepare("SELECT * FROM usuario WHERE id_usuario =:id_usuario");
             $sql->bindValue(':id_usuario',$_GET['id_usuario']);
+            $sql->execute();
+            header("HTTP/1.1 200 OK");
+
+            echo json_encode($sql->fetch(PDO::FETCH_ASSOC));
+
+            exit();
+        }elseif(isset($_GET['correo'])){
+            //Mostrar post
+            $sql = $dbConn->prepare("SELECT id_usuario, nombres, apellidos,  correo, password, estado, documento, 
+                                     telefono, url_foto,tipo_usuario FROM usuario WHERE correo =:correo OR usuario =:correo");
+            $sql->bindValue(':correo',$_GET['correo']);
             $sql->execute();
             header("HTTP/1.1 200 OK");
 
@@ -32,11 +43,9 @@
     {
         $input = $_POST;
         $sql = "INSERT INTO usuario
-            (documento, tipo_documento, tipo_usuario, apellidos, 
-            nombres, telefono, correo, usuario, password, estado, url_foto)
+            (apellidos, nombres, correo, password, estado, tipo_usuario)
             VALUES
-            (:documento, :tipo_documento, :tipo_usuario, :apellidos, 
-            :nombres, :telefono, :correo, :usuario, :password, :estado, :url_foto)";
+            (:apellidos, :nombres, :correo, :password, :estado, :tipo_usuario)";
         $statement = $dbConn->prepare($sql);
         bindAllValues($statement, $input);
         $statement->execute();

@@ -9,7 +9,7 @@
     {
         if (isset($_GET['id_horario'])) {
             //Mostrar post
-            $sql = $dbConn->prepare("SELECT * FROM horario WHERE id_horario =: id_horario");
+            $sql = $dbConn->prepare("SELECT * FROM horario WHERE id_horario=:id_horario");
             $sql->bindValue(':id_horario',$_GET['id_horario']);
             $sql->execute();
             header("HTTP/1.1 200 OK");
@@ -31,10 +31,10 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $input = $_POST;
-        $sql = "INSERT INTO cancha
-            (fecha_desde,fecha_hasta,hora_inicio,hora_fin, estado)
+        $sql = "INSERT INTO horario
+            (hora_inicio,hora_fin, estado)
             VALUES
-            (:fecha_desde, :fecha_hasta, :hora_inicio, :hora_fin,:estado)";
+            (:hora_inicio,:hora_fin,:estado)";
         $statement = $dbConn->prepare($sql);
         bindAllValues($statement, $input);
         $statement->execute();
